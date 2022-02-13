@@ -1,0 +1,48 @@
+{% extends "admin/layout_admin.html" %}
+{% block body %}
+    <div class="container-fluid">
+        <br><h3 class="titre">Clients</h3><br>
+    </div>
+    <div class="container-fluid">
+        <div class="card shadow">
+            <div class="card-header py-3">
+                <p class="text-primary m-0 font-weight-bold">Clients</p>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
+                    <table class="table my-0" id="dataTable">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Utilisateur</th>
+                                <th>Adresse mail</th>
+                                <th>Role</th>
+                                <th>Actif</th>
+                                {# <th style="text-align: center;">Options</th> #}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for client in clients %}
+                                <tr>
+                                    <td>{{ client.id_user }}</td>
+                                    <td>{{ client.username }}</td>
+                                    <td>{{ client.email }}</td>
+                                    <td>{{ client.role }}</td>
+                                    {% if client.estActif == 1 %}
+                                        <td style="color: greenyellow"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-circle-fill" viewBox="0 0 16 16">
+                                            <circle cx="8" cy="8" r="8"/></svg>
+                                        </td>
+                                    {% else %}
+                                        <td style="color: red"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-circle-fill" viewBox="0 0 16 16">
+                                            <circle cx="8" cy="8" r="8"/></svg>
+                                        </td>
+                                    {% endif %}
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div> <!-- end card-body-->
+        </div>
+    </div>
+{% endblock %}

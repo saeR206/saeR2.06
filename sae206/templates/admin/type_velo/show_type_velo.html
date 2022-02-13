@@ -1,0 +1,39 @@
+{% extends 'admin/layout_admin.html' %}
+
+{% block title %}
+    <title>Afficher les types de vélos</title>
+{% endblock %}
+
+{% block body %}
+    <h3 class="titre">Types de vélos</h3>
+    <a class="btn btn-outline-success" href="{{ url_for('admin_type_velo.valid_add_type_velo') }}" role="button" aria-pressed="true">Ajouter un type de vélo</a>
+    <br><br>
+
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th>Id</th><th>Nom</th><th>Nombre de vélos</th><th>Opérations</th>
+            </tr>
+        </thead>
+        <tbody class="bg-white">
+        {% if type_velo | length >= 1 %}
+            {% for type in type_velo %}
+               <tr>
+                    <td>{{ type.id_type_velo }}</td>
+                    <td>{{ type.libelle_type_velo }}</td>
+                    <td>{{ type.nb_velos }}</td>
+                    <td>
+                        <a href="{{ url_for('admin_type_velo.edit_type_velo', id=type.id_type_velo, id_type_velo=type.id_type_velo) }}" class="btn btn-outline-info btn-sm" role="button" aria-pressed="true">Éditer</a>
+                        <a href="{{ url_for('admin_type_velo.delete_type_velo', id_type_velo=type.id_type_velo, id=type.id_type_velo) }}" onclick="return confirm('Êtes vous sûr de vouloir supprimer cette catégorie ?')" class="btn btn-outline-dark btn-sm" role="button" aria-pressed="true">Supprimer</a>
+                    </td>
+               </tr>
+            {% endfor %}
+        {% else %}
+                <tr>
+                    <td>Pas de type de vélo</td>
+                    <td></td><td></td><td></td>
+                </tr>
+        {% endif %}
+        </tbody>
+    </table>
+{% endblock %}

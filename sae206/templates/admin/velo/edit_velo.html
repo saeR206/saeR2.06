@@ -1,0 +1,74 @@
+{% extends 'admin/layout_admin.html' %}
+{% block title %}
+    <title>Modifier un vélo</title>
+{% endblock %}
+
+{% block body %}
+    <h2 class="titre">Modification d'un velo</h2>
+    {% if error %}
+        <p class=error><strong>Error:</strong> {{ error }}
+    {% endif %}
+
+    <form method="post" action="{{ url_for('admin_velo.valid_edit_velo') }}">
+        <fieldset>
+            <legend>Modifier une vélo</legend>
+            <div class="mb-3">
+                <input type="hidden" name="id_velo" size="18" value="{{ vel.id_velo }}" id="id">
+
+                <label for="nom_velo">Nom</label><br>
+                <input id="nom_velo" type="text" name="nom_velo" size="18" value="{{ vel.nom_velo }}" placeholder="Saisir le nom du vélo"><br>
+
+                <label for="type_velo">Type de vélo<br>
+                    <select name="id_type_velo" required>
+                        <option value="{{ vel.id_type_velo }}"> {{ vel.libelle_type_velo }} </option>
+                        {% for type in type_velo %}
+                            {% if type.id_type_velo != vel.id_type_velo %}
+                                <option value="{{ type.id_type_velo }}"> {{ type.libelle_type_velo }} </option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </label><br/>
+
+                <label for="taille">Taille<br>
+                    <select name="id_taille" required>
+                    <option value="{{ vel.id_taille }}"> {{ vel.libelle_taille }} </option>
+                        {% for t in taille %}
+                            <option value="{{ t.id_taille }}"> {{ t.libelle_taille }} </option>
+                        {% endfor %}
+                    </select>
+                </label><br/>
+
+                <label for="couleur">Couleur<br>
+                    <select name="id_couleur" required>
+                        <option value="{{ vel.id_couleur }}"> {{ vel.libelle_couleur }} </option>
+                        {% for coul in couleur %}
+                            <option value="{{ coul.id_couleur }}"> {{ coul.libelle_couleur }} </option>
+                        {% endfor %}
+                    </select>
+                </label><br/>
+
+                <label for="fournisseur">Fournisseur<br>
+                    <select name="id_fournisseur" required>
+                        <option value="{{ vel.id_fournisseur }}"> {{ vel.nom_fournisseur }} </option>
+                        {% for fourn in fournisseur %}
+                            <option value="{{ fourn.id_fournisseur }}"> {{ fourn.nom_fournisseur }} </option>
+                        {% endfor %}
+                    </select>
+                </label><br/>
+
+                <label for="prix_velo">Prix (en €)</label><br>
+                <input id="prix_velo" type="number" name="prix_velo" size="18" value="{{ vel.prix_velo }}" placeholder="Saisir le prix du vélo"><br>
+
+                <label for="stock">Stock</label><br>
+                <input id="stock" type="number" name="stock" size="18" value="{{ vel.stock }}" placeholder="Saisir le nombre de vélos en stock"><br>
+
+                <label for="img_velo">Image</label><br>
+                <input id="img_velo" type="text" name="img_velo" size="18" value="{{ vel.img_velo }}" placeholder="Nom de l'image"><br>
+            </div>
+
+            <div class="col-12">
+                <button class="btn btn-primary" type="submit">Valider</button>
+            </div>
+        </fieldset>
+    </form>
+{% endblock %}

@@ -1,0 +1,28 @@
+h1 { color: #28B3FB;}
+
+body {
+    background-color: #9fcdff;
+}
+
+br , h2 { color: #03476D; }
+
+table {
+    text-align: center;
+    table-layout: auto;
+    border-collapse: collapse;
+}
+
+#imgtab {
+    width: 40px;
+}
+
+::selection {
+    background-color: orange;
+    color: #0056b3;
+}
+
+.image_nav {
+    height: auto;
+    width: 100px;
+    padding-right: 5px;
+}

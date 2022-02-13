@@ -1,0 +1,26 @@
+{% extends 'admin/layout_admin.html' %}
+
+{% block title %}
+    <title>Modifier un type de vélo</title>
+{% endblock %}
+
+{% block body %}
+  {% if error %}
+    <p class=error><strong>Error:</strong> {{ error }}
+  {% endif %}
+  <form method="post" action="{{ url_for('admin_type_velo.valid_edit_type_velo') }}">
+    <fieldset>
+        <legend>Modifier un type de vélo</legend>
+        <div class="mb-3">
+            <input type="hidden" name="id" size="18" value="{{ type.id_type_velo }}" id="id">
+
+            <label for="libelle_type_velo">Libellé</label><br>
+            <input class="form-select" type="text" name="libelle_type_velo" size="18" value="{{ type.libelle_type_velo }}" id="libelle_type_velo"><br>
+        </div>
+        <div class="col-12">
+            <button class="btn btn-primary" type="submit">Valider</button>
+        </div>
+
+    </fieldset>
+  </form>
+{% endblock %}

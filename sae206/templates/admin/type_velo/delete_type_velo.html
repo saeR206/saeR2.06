@@ -1,0 +1,29 @@
+{% extends 'admin/layout_admin.html' %}
+
+{% block title %}
+    <title>Supression de type de vélo impossible</title>
+{% endblock %}
+
+{% block body %}
+    <div class="container-1">
+        <h3 class="titre">Impossibilité de supprimer le type de vélo</h3>
+        <br>
+    </div>
+    <div class="container-1">
+        {% if type_delete == 1 %}
+            <h4 class="objet-1-05">Il y a <span class="red38">{{ type_delete }}</span> vélo à supprimer</h4>
+        {% else %}
+            <h4 class="objet-1-05">Il y a <span class="red38">{{ type_delete }}</span> vélos à supprimer</h4>
+        {% endif %}
+    </div><br>
+    <ul>
+        {% if velo | length >= 1 %}
+            {% for v in velo %}
+                <li>
+                    Nom : {{ v.nom_velo }} - Prix : <span class="font-size18">{{ v.prix_velo }}</span> € - Stock : {{ v.stock }} - <a class="btn btn-outline-danger" href="/admin/type-velo/delete?id={{ v.id_type_velo }}&amp;id_velo={{ v.id_velo }}">Supprimer</a>
+                </li><br>
+            {% endfor %}
+        {% endif %}
+    </ul>
+    <a class="btn btn-outline-warning" href="/admin/type-velo/show">Annuler</a>
+{% endblock %}

@@ -1,0 +1,80 @@
+{% extends "client/layout_client.html" %}
+{% block body %}
+    <div class="container-fluid">
+        <br><h3 class="titre">Mes commandes</h3>
+        <br><br>
+    </div>
+    <div class="container-fluid">
+            {% if velos_commande %}
+                <h3>Recapitulatifs de la commande selectionnée</h3>
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr><th>Nom</th><th>Quantite</th><th>Prix</th><th>Prix total</th></tr>
+                    </thead>
+                    <tbody>
+                        {% for ligne in velos_commande %}
+                            <tr>
+                                <td>{{ ligne.nom_velo }}</td>
+                                <td>{{ ligne.quantite }}</td>
+                                <td>{{ ligne.prix_unit }} €</td>
+                                <td>{{ ligne.prix_ligne }} €</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% if velos_commande[0].id_etat == 1 %}
+                <form action="/admin/commande/valider" method="post">
+                    <input type="hidden" name="idCommande" value="{{ velos_commande[0].id_ligne }}"
+                    <button class="btn btn-outline-success">Expédier</button>
+                </form>
+            {% endif %}
+            <hr>
+        {% endif %}
+        <div class="card shadow">
+            <div class="card-header py-3">
+                <p class="text-primary m-0 font-weight-bold">Toutes mes commandes</p>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
+                    <table class="table my-0" id="dataTable">
+                        <thead>
+                        <tr>
+                            <th>Date de commande</th>
+                            <th>Nombre de velos</th>
+                            <th>Coût total</th>
+                            <th>Etat de la commande</th>
+                            <th style="text-align: center;">Options</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for commande in commandes %}
+                            <tr id="" {#% if commande.etat.nom == "Produit indisponible" %#} style="background: #FFD600; font-weight: bold;" {#% endif %#}>
+                                <td>{{ commande.date_achat.strftime('%d-%m-%Y') }}</td>
+                                <td> {{ commande.nbr_velos }} </td>
+                                <td>
+                                    {# {{ "{:,.2f} €".format(commande.prix_total) }} #}
+                                </td>
+                                <td style="text-align: center;">
+                                    {% if commande.id_etat == 1 %} <div style="background-color: #ba8b00; padding: 5px;">
+                                     {{ commande.libelle_etat }}
+                                    </div>
+                                    {% else %} <div style="background-color: #34ce57; padding: 5px;">
+                                        {{ commande.libelle_etat }} </div>
+                                    {% endif %}
+                                </td>
+                                <td style="text-align: center;">
+                                    <form action="/client/commande/show" {# action="{{ url_for("client_commande_show") }}" #} style="display: inline-block;"  method="post">
+                                        <input type="hidden" name="idCommande" value="{{ commande.id_commande }}">
+                                        <button class="btn btn-outline-dark" > Détails </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div> <!-- end card-body-->
+        </div>
+    </div>
+
+{% endblock %}

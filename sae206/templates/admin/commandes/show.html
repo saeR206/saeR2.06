@@ -1,0 +1,58 @@
+{% extends "admin/layout_admin.html" %}
+{% block body %}
+    <div class="container-fluid">
+        <br><h3 class="titre">Commandes</h3>
+        <br><br>
+    </div>
+    <div class="container-fluid">
+        <div class="card shadow">
+            <div class="card-header py-3">
+                <p class="text-primary m-0 font-weight-bold">Toutes mes commandes</p>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
+                    <table class="table my-0" id="dataTable">
+                        <thead>
+                        <tr>
+                            <th>Date de commande</th>
+                            <th>Nombre de velos</th>
+                            <th>Coût total</th>
+                            <th>Etat de la commande</th>
+                            <th style="text-align: center;">Options</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for commande in commandes %}
+                            <tr id="" {#% if commande.etat.nom == "Produit indisponible" %#} style="background: #FFD600; font-weight: bold;" {#% endif %#}>
+                                <td>{{ commande.date_achat.strftime('%d-%m-%Y') }}</td>
+                                <td> {{ commande.nbr_velos }} </td>
+                                <td>
+                                    {# {{ "{:,.2f} €".format(commande.prix_total) }} #}
+                                </td>
+                                <td style="text-align: center;">
+                                    {% if commande.id_etat == 1 %} <div style="background-color: #ba8b00; padding: 5px;">
+                                     {{ commande.libelle_etat }}
+                                    </div>
+                                    {% else %} <div style="background-color: #34ce57; padding: 5px;">
+                                        {{ commande.libelle_etat }} </div>
+                                    {% endif %}
+                                </td>
+                                <td style="text-align: center;">
+                                    <form action="/admin/commande/valider" {# action="{{ url_for("client_commande_show") }}" #} style="display: inline-block;"  method="post">
+                                        <input type="hidden" name="idCommande" value="{{ commande.id_commande }}">
+                                        <button class="btn btn-primary" > Expédier </button>
+                                    </form>
+                                    <form action="/admin/commande/show" {# action="{{ url_for("client_commande_show") }}" #} style="display: inline-block;"  method="post">
+                                        <input type="hidden" name="idCommande" value="{{ commande.id_commande }}">
+                                        <button class="btn btn-primary" > Details </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div> <!-- end card-body-->
+        </div>
+    </div>
+{% endblock %}

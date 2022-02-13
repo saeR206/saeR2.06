@@ -1,0 +1,54 @@
+{% extends 'admin/layout_admin.html' %}
+
+{% block title %}
+    <title>Afficher les vélos</title>
+{% endblock %}
+
+{% block body %}
+    <h3 class="titre">Vélos</h3>
+    <a class="btn btn-outline-success" href="{{ url_for('admin_velo.add_velo') }}">Ajouter un vélo</a>
+    <br><br>
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Type de vélo (id)</th>
+                <th>Taille (id)</th>
+                <th>Couleur (id)</th>
+                <th>Fournisseur (id)</th>
+                <th>Prix (en €)</th>
+                <th>Stock</th>
+                <th>Image</th>
+                <th>Opérations</th>
+            </tr>
+        </thead>
+        <tbody class="bg-white">
+            {% if velo | length >= 1 %}
+                {% for v in velo %}
+                    <tr>
+                        <td>{{ v.id_velo }}</td>
+                        <td>{{ v.nom_velo }}</td>
+                        <td>{{ v.type_velo }}</td>
+                        <td>{{ v.taille }}</td>
+                        <td>{{ v.couleur }}</td>
+                        <td>{{ v.fournisseur }}</td>
+                        <td>{{ v.prix_velo }}</td>
+                        <td>{{ v.stock }}</td>
+                        <td><img id="imgtab" src="/static/images/{{ v.img_velo }}" width="50%" height="50%"/></td>
+                        <td>
+                            <a href="{{ url_for('admin_velo.edit_velo', id_velo=v.id_velo, id=v.id_velo) }}" class="btn btn-outline-info btn-sm" role="button" aria-pressed="true">Éditer</a>&nbsp;
+                            <a href="{{ url_for('admin_velo.delete_velo',id_velo=v.id_velo) }}" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce vélo ?')" class="btn btn-outline-dark btn-sm" role="button" aria-pressed="true">Supprimer</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td>
+                        Pas de vélo
+                    </td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+{% endblock %}

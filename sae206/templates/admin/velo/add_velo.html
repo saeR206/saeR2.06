@@ -1,0 +1,68 @@
+{% extends 'admin/layout_admin.html' %}
+
+{% block title %}
+    <title>Ajouter un vélo</title>
+{% endblock %}
+
+{% block body %}
+    <h2 class="titre">Ajout d'un vélo</h2>
+    {% if error %}
+        <p class=error><strong>Error:</strong> {{ error }}
+    {% endif %}
+
+    <form method="post" action="{{ url_for('admin_velo.valid_add_velo') }}">
+        <fieldset>
+            <legend>Ajouter une voiture</legend>
+
+            <label for="nom_velo">Nom</label><br>
+            <input id="nom_velo" type="text" name="nom_velo" size="18" value="" placeholder="Saisir le nom du vélo"><br>
+
+            <label for="type_velo">Type de vélo<br>
+                <select name="id_type_velo" required>
+                    <option value="">Sélectionner un type de vélo</option>
+                    {% for type in type_velo %}
+                        <option value="{{ type.id_type_velo }}"> {{ type.libelle_type_velo }} </option>
+                    {% endfor %}
+                </select>
+            </label><br/>
+
+            <label for="taille">Taille<br>
+                <select name="id_taille" required>
+                    <option value="">Sélectionner la taille du vélo</option>
+                    {% for t in taille %}
+                        <option value="{{ t.id_taille }}"> {{ t.libelle_taille }} </option>
+                    {% endfor %}
+                </select>
+            </label><br/>
+
+            <label for="couleur">Couleur<br>
+                <select name="id_couleur" required>
+                    <option value="">Sélectionner la couleur du vélo</option>
+                    {% for coul in couleur %}
+                        <option value="{{ coul.id_couleur }}"> {{ coul.libelle_couleur }} </option>
+                    {% endfor %}
+                </select>
+            </label><br/>
+
+            <label for="fournisseur">Fournisseur<br>
+                <select name="id_fournisseur" required>
+                    <option value="">Sélectionner le fournisseur</option>
+                    {% for fourn in fournisseur %}
+                        <option value="{{ fourn.id_fournisseur }}"> {{ fourn.nom_fournisseur }} </option>
+                    {% endfor %}
+                </select>
+            </label><br/>
+
+            <label for="prix_velo">Prix (en €)</label><br>
+            <input id="prix_velo" type="number" name="prix_velo" size="18" value="" placeholder="Saisir le prix du vélo"><br>
+
+            <label for="stock">Stock</label><br>
+            <input id="stock" type="number" name="stock" size="18" value="" placeholder="Saisir le nombre de vélos en stock"><br>
+
+            <label for="img_velo">Image</label><br>
+            <input id="img_velo" type="text" name="img_velo" size="18" value="" placeholder="Nom de l'image"><br>
+
+            <input class="margin_top" type="submit" value="Créer" name="Valider">
+        </fieldset>
+    </form>
+{% endblock %}

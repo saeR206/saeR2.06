@@ -1,0 +1,23 @@
+{% extends 'admin/layout_admin.html' %}
+
+{% block title %}
+    <title>Ajouter un type de vélo</title>
+{% endblock %}
+
+{% block body %}
+    <h2 class="titre">Ajout d'un type de vélo</h2>
+    {% if error %}
+        <p class=error><strong>Error:</strong> {{ error }}
+    {% endif %}
+
+    <form method="post" action="{{ url_for('admin_type_velo.valid_add_type_velo') }}">
+    <fieldset>
+        <legend class="legend">Créer un type de vélo</legend>
+
+        <label for="libelle_type_velo">Type de vélo</label><br>
+        <input id="libelle_type_velo" type="text" name="libelle_type_velo" size="18" value="" placeholder="Saisir le nom du type de vélo"><br>
+
+        <input class="margin_top" type="submit" value="Créer" name="Valider">
+    </fieldset>
+  </form>
+{% endblock %}
