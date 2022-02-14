@@ -148,6 +148,7 @@ CREATE TABLE COMMANDE(
    id_user INT,
    id_etat INT,
    prix_total INT,
+   nombre_velo INT,
    PRIMARY KEY(id_commande),
 
    CONSTRAINT fk_commande_user

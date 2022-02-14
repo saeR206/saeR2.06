@@ -23,7 +23,16 @@ def client_commande_add():
         return redirect('/client/velo/show')
 
     date_commande = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    mycursor.execute("INSERT INTO COMMANDE(date_achat, id_user, id_etat) VALUES (%s,%s,%s)", (date_commande, id_user,'1'))
+
+    mycursor.execute("SELECT SUM(prix_unit*quantite) AS prix_t FROM PANIER")
+    prix_total = mycursor.fetchone()
+    prix_total = prix_total["prix_t"]
+
+    mycursor.execute("SELECT SUM(quantite) AS nombre FROM PANIER")
+    nombre_velo = mycursor.fetchone()
+    nombre_velo = nombre_velo["nombre"]
+
+    mycursor.execute("INSERT INTO COMMANDE(date_achat, id_user, id_etat, prix_total, nombre_velo) VALUES (%s,%s,%s,%s,%s)", (date_commande, id_user,'1', prix_total, nombre_velo))
     mycursor.execute("SELECT last_insert_id() AS last_insert_id;")
     id_commande = mycursor.fetchone()
 
@@ -42,9 +51,18 @@ def client_commande_add():
 @client_commande.route('/client/commande/show', methods=['GET','POST'])
 def client_commande_show():
     mycursor = get_db().cursor()
-    mycursor.execute("SELECT id_commande, date_achat, libelle_etat FROM COMMANDE INNER JOIN ETAT on COMMANDE.id_etat = ETAT.id_etat INNER JOIN UTILISATEUR on COMMANDE.id_user = UTILISATEUR.id_user;")
+
+    id_commande = request.form.get("id_commande", "")
+
+    mycursor.execute("SELECT * FROM COMMANDE INNER JOIN ETAT on COMMANDE.id_etat = ETAT.id_etat INNER JOIN UTILISATEUR on COMMANDE.id_user = UTILISATEUR.id_user WHERE COMMANDE.id_user=%s;", (session["user_id"]))
     commandes = mycursor.fetchall()
 
-    mycursor.execute("SELECT nom_velo, quantite, prix_unit, quantite*prix_unit AS prix_ligne FROM VELO INNER JOIN PANIER on VELO.id_velo = PANIER.id_velo;")
-    velos_commande = mycursor.fetchall()
+    # mycursor.execute("SELECT nom_velo, quantite, prix_unit, quantite*prix_unit AS prix_ligne FROM VELO INNER JOIN PANIER on VELO.id_velo = PANIER.id_velo;")
+    # velos_commande = mycursor.fetchall()
+
+    if id_commande != None:
+        mycursor.execute("SELECT * FROM ligne_commande INNER JOIN VELO ON ligne_commande.id_velo = VELO.id_velo WHERE id_commande=%s", (id_commande))
+        ligne_commande = mycursor.fetchall()
+        return render_template('client/commandes/show.html', commandes=commandes, ligne_commande=ligne_commande)
+
     return render_template('client/commandes/show.html', commandes=commandes, velos_commande=velos_commande)

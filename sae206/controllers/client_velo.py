@@ -27,9 +27,6 @@ def client_velo_show():                                 # remplace client_inde
     mycursor.execute("SELECT * FROM PANIER INNER JOIN VELO ON PANIER.id_velo = VELO.id_velo")
     velos_panier = mycursor.fetchall()
 
-    print(velos)
-    print("---")
-    print(velos_panier)
     prix_total = None
     return render_template('client/boutique/panier_velo.html', velos=velos, velosPanier=velos_panier, prix_total=prix_total, itemsFiltre=types_velos, tailles=tailles, couleurs=couleurs)
 

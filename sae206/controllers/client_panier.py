@@ -38,7 +38,6 @@ def client_panier_delete():
     id_velo = request.form.get("id_velo")
     mycursor.execute("SELECT * FROM PANIER WHERE id_velo=%s;", (id_velo))
     quantite = request.form.get("quantite")
-    print(quantite)
 
     if int(quantite)<=1:
         sql = """DELETE FROM PANIER WHERE id_user=%s and id_velo=%s;"""
